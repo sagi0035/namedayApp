@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">catLoversApp</string>
+    <string name="app_name">namedDayApp</string>
     <!-- So now we will create a string-array for the spinner list-->
     <string-array name="countries">
         <item>Select a country</item>
