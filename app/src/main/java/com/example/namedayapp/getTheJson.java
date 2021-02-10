@@ -32,29 +32,18 @@ public class getTheJson {
     }
 
 
-    // so we will be using lambdas to obtain the names and so we will obviously need to create interfaces
-    // these interfaces should be built to handle any errors too
-    public interface GetNamesToday {
+    // so we will be using lambdas to obtain the names and so we will obviously need to create the interface
+    // the interfaces should be built to handle any errors too
+    public interface GetVolleyResponse {
         void onError(String message);
 
-        void onResponse(String country, String day);
-    }
-
-    public interface GetNamesTom {
-        void onError(String message);
-
-        void onResponse(String country, String day);
-    }
-
-    public interface GetNamesYest {
-        void onError(String message);
-
-        void onResponse(String country, String day);
+        // we will get the names to be used late in mainactivity
+        void onResponse(String names);
     }
 
     // to obtain the names we will be using jsonobject requests and jsonobjects
     // the only thing that will differ is the url so it is easiest to create a method and call them individually
-    public void forEase(String url, final String country) {
+    public void forEase(String url, final String country, final GetVolleyResponse getVolleyResponse) {
         JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(Request.Method.GET, url, null,
                 new Response.Listener<JSONObject>() {
                     @Override
@@ -63,7 +52,8 @@ public class getTheJson {
                             JSONObject jsonObject = response.getJSONObject("data");
                             JSONObject jsonObject2 = jsonObject.getJSONObject("namedays");
                             getTheNames = jsonObject2.getString(country);
-                            Toast.makeText(context, getTheNames, Toast.LENGTH_SHORT).show();
+                            // now we set the onresponse to be able to change the deatils in mainactivity when this is a success
+                            getVolleyResponse.onResponse(getTheNames);
                         } catch (JSONException e) {
                             Toast.makeText(context, "Problem", Toast.LENGTH_SHORT).show();
                             e.printStackTrace();
@@ -82,24 +72,20 @@ public class getTheJson {
     }
 
     // so we will create the method to get the names
-    public void getNamesOfToday(final String country, String day, final GetNamesToday getNamesToday) {
+    public void getNamesOfToday(final String country, String day, final GetVolleyResponse getVolleyResponse) {
         String url = QUERY_FOR_NAMEDAY_PART_ONE + day + QUERY_FOR_NAMEDAY_PART_TWO + country;
-        forEase(url,country);
+        forEase(url,country,getVolleyResponse);
     }
 
-    public void getNamesOfTom(final String country, String day, final GetNamesTom getNamesTom) {
+    public void getNamesOfTom(final String country, String day, final GetVolleyResponse getVolleyResponse) {
         String url = QUERY_FOR_NAMEDAY_PART_ONE + day + QUERY_FOR_NAMEDAY_PART_TWO + country;
-        forEase(url,country);
+        forEase(url,country,getVolleyResponse);
     }
 
-    public void getNamesOfYest(final String country, String day, final GetNamesYest getNamesYest) {
+    public void getNamesOfYest(final String country, String day, final GetVolleyResponse getVolleyResponse) {
         String url = QUERY_FOR_NAMEDAY_PART_ONE + day + QUERY_FOR_NAMEDAY_PART_TWO + country;
-        forEase(url,country);
+        forEase(url,country,getVolleyResponse);
     }
 
-    // and finally we will provide the names
-    public String getTheNames () {
-        return getTheNames;
-    }
 
 }

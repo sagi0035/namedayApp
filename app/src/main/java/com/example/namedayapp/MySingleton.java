@@ -15,7 +15,7 @@ public class MySingleton {
     // so the first thing that we will do is set up the singleton, reuestque and context for when the singleton is called
     private static MySingleton instance;
     private RequestQueue requestQueue;
-    //private ImageLoader imageLoader;
+    private ImageLoader imageLoader;
     private static Context ctx;
 
     // so as per this method we will only create a new request queue if there is no current one open]
@@ -49,11 +49,11 @@ public class MySingleton {
         getRequestQueue().add(req);
     }
 
-    /*
+
     public ImageLoader getImageLoader() {
         return imageLoader;
     }
-    */
+
 
 
 }
